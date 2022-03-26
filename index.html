@@ -17,6 +17,9 @@
         <track label="English chapters" kind="chapters" srclang="en"
                src="https://mainline.i3s.unice.fr/mooc/elephants-dream-chapters-en.vtt">
     </video>
+    <div id="trackStatusesDiv">
+        <h3>HTML track descriptions</h3>
+    </div>
     <div id="input_form">
 
         <ul>
@@ -26,7 +29,7 @@
                 <div class="divs">
                     <input id="playerSpeeed" step="0.01" required type="range" min="2" max="10" value="5" oninput="ChangePlayerSpeed(event);" />
                     <output id="playerSpeedValue">5</output>
-                    </div>
+                </div>
             </li>
             <li>
 
@@ -40,9 +43,11 @@
 
         </ul>
     </div>
-    <datalist id="myData"><option>3</option>
-    <option>7</option>
-    <option>13</option></datalist>
+    <datalist id="myData">
+        <option>3</option>
+        <option>7</option>
+        <option>13</option>
+    </datalist>
 
 
 </body>

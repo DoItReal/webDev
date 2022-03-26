@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Forms</title>
+    <script src='script.js'></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload='init();'>
+    <video id="myVideo" preload="metadata" controls crossOrigin="anonymous">
+        <source src="https://mainline.i3s.unice.fr/mooc/elephants-dream-medium.mp4" type="video/mp4">
+        <source src="https://mainline.i3s.unice.fr/mooc/elephants-dream-medium.webm" type="video/webm">
+        <track label="English subtitles" kind="subtitles" srclang="en"
+               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-en.vtt">
+        <track label="Deutsch subtitles" kind="subtitles" srclang="de"
+               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-de.vtt" default>
+        <track label="English chapters" kind="chapters" srclang="en"
+               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-chapters-en.vtt">
+    </video>
+    <div id="input_form">
+
+        <ul>
+            <li>
+
+                <label for="playerSpeed">Player Speed: </label>
+                <div class="divs">
+                    <input id="playerSpeeed" step="0.01" required type="range" min="2" max="10" value="5" oninput="ChangePlayerSpeed(event);" />
+                    <output id="playerSpeedValue">5</output>
+                    </div>
+            </li>
+            <li>
+
+                <label for="missleNum">Missles Number</label>
+                <div class="divs">
+                    <input id="missleNum" list="myData" step="0.1" required type="range" min="2" max="20" value="5" oninput="ChangeMissleNum(event); met.value=missleNum.value" />
+                    <output id="missleNumValue">5</output>
+                    <meter value="5" min="2" max="20" low="3" high="10" optimum="1" id="met" for="missleNum"></meter>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <datalist id="myData"><option>3</option>
+    <option>7</option>
+    <option>13</option></datalist>
+
+
+</body>
+</html>

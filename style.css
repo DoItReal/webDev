@@ -4,10 +4,49 @@
     padding: 20px;
     margin-top: 10px;
 }
-#cuesDiv {
+#cuesDiv{
     overflow:scroll;
     border: 1px solid;
     height: 400px;
     padding: 5px;
     margin-top:10px;
+}
+#cuesLiveDiv {
+    overflow: scroll;
+    border: 1px solid;
+    height: 100px;
+    padding: 5px;
+    margin-top: 10px;
+}
+#divTranscript {
+    padding: 10px;
+    border: 1px solid;
+    float: left;
+    height:540px;
+    overflow: auto;
+    width: 28%;
+    margin: 0;
+    font-size: 14px;
+    list-style: none;
+    background:lightgreen;
+}
+#li{
+    border: 1px solid red;
+}
+video {
+    display: block;
+    float: left;
+    margin-right: 1%;
+    width: 66%;
+    background-color: black;
+    position: relative;
+    border: 5px solid black;
+}
+#all{
+    display:inline-block;
+}
+
+.trans:hover{
+    color:gray;
+
 }

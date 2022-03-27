@@ -15,45 +15,49 @@
         <track label="Deutsch subtitles" kind="subtitles" srclang="de"
                src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-de.vtt" default>
         <track label="English chapters" kind="chapters" srclang="en"
-               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-chapters-en.vtt">
+               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-chapters-en.vtt">     
     </video>
-    <p>
+    <div id="divTranscript"></div>
         <button onclick=displayTrackStatuses()>Refresh track statuses</button>
-        <div id="trackStatusesDiv">
+    <p>Track Info</p>
+    <div id="trackStatusesDiv">
+        <h3>HTML track descriptions</h3>
+    </div>
+    <p>Track Content Live</p>
+    <div id="cuesLiveDiv">
+    </div>
+    <p>Track Content List</p>
+    <div id="cuesDiv">
+        <h3>The showing track contain</h3>
+    </div>
+    <div id="input_form">
 
-            <h3>HTML track descriptions</h3>
-        </div>
-        <div id="cuesDiv">
-            <h3>The showing track contain</h3>
-        </div>
-        <div id="input_form">
+        <ul>
+            <li>
 
-            <ul>
-                <li>
+                <label for="playerSpeed">Player Speed: </label>
+                <div class="divs">
+                    <input id="playerSpeeed" step="0.01" required type="range" min="2" max="10" value="5" oninput="ChangePlayerSpeed(event);" />
+                    <output id="playerSpeedValue">5</output>
+                </div>
+            </li>
+            <li>
 
-                    <label for="playerSpeed">Player Speed: </label>
-                    <div class="divs">
-                        <input id="playerSpeeed" step="0.01" required type="range" min="2" max="10" value="5" oninput="ChangePlayerSpeed(event);" />
-                        <output id="playerSpeedValue">5</output>
-                    </div>
-                </li>
-                <li>
+                <label for="missleNum">Missles Number</label>
+                <div class="divs">
+                    <input id="missleNum" list="myData" step="0.1" required type="range" min="2" max="20" value="5" oninput="ChangeMissleNum(event); met.value=missleNum.value" />
+                    <output id="missleNumValue">5</output>
+                    <meter value="5" min="2" max="20" low="3" high="10" optimum="1" id="met" for="missleNum"></meter>
+                </div>
+            </li>
 
-                    <label for="missleNum">Missles Number</label>
-                    <div class="divs">
-                        <input id="missleNum" list="myData" step="0.1" required type="range" min="2" max="20" value="5" oninput="ChangeMissleNum(event); met.value=missleNum.value" />
-                        <output id="missleNumValue">5</output>
-                        <meter value="5" min="2" max="20" low="3" high="10" optimum="1" id="met" for="missleNum"></meter>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
-        <datalist id="myData">
-            <option>3</option>
-            <option>7</option>
-            <option>13</option>
-        </datalist>
+        </ul>
+    </div>
+    <datalist id="myData">
+        <option>3</option>
+        <option>7</option>
+        <option>13</option>
+    </datalist>
 
 
 </body>

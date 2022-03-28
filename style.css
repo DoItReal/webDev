@@ -19,16 +19,43 @@
     margin-top: 10px;
 }
 #divTranscript {
-    padding: 10px;
+    padding: 5px;
     border: 1px solid;
     float: left;
-    height:540px;
+ 
     overflow: auto;
-    width: 28%;
+    width: auto;
     margin: 0;
     font-size: 14px;
     list-style: none;
     background:lightgreen;
+}
+.divFlex0{
+   display:flex;
+   width:100%;
+   height:auto;
+   max-height:520px;
+   justify-content:fles-start;
+   flex-flow:row;
+   margin:0px;
+   padding:0px;
+   border:3px solid red;
+}
+#buttonTrackStatuses{
+    float:right;
+    margin-right:5px;
+    margin-top:5px;
+    width:220px;
+    background:red;
+    font-size:16px;
+    border-radius:10px;
+}
+#trackStatusesDiv{
+    overflow:auto;
+    margin:0px;
+}
+#trackStatusesDiv ul {
+    border: 3px solid;
 }
 #li{
     border: 1px solid red;
@@ -36,8 +63,7 @@
 video {
     display: block;
     float: left;
-    margin-right: 1%;
-    width: 66%;
+    width: 55%;
     background-color: black;
     position: relative;
     border: 5px solid black;
@@ -49,4 +75,11 @@ video {
 .trans:hover{
     color:gray;
 
+}
+#langButtonDiv > button {
+    background: aquamarine;
+    width: 10%;
+    border-radius:15px;
+    margin:10px;
+    margin-right:0px;
 }

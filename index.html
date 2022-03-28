@@ -7,22 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <video id="myVideo" preload="metadata" controls crossOrigin="anonymous">
-        <source src="https://mainline.i3s.unice.fr/mooc/elephants-dream-medium.mp4" type="video/mp4">
-        <source src="https://mainline.i3s.unice.fr/mooc/elephants-dream-medium.webm" type="video/webm">
-        <track label="English subtitles" kind="subtitles" srclang="en"
-               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-en.vtt">
-        <track label="Deutsch subtitles" kind="subtitles" srclang="de"
-               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-de.vtt" default>
-        <track label="English chapters" kind="chapters" srclang="en"
-               src="https://mainline.i3s.unice.fr/mooc/elephants-dream-chapters-en.vtt">     
-    </video>
-    <div id="divTranscript"></div>
-        <button onclick=displayTrackStatuses()>Refresh track statuses</button>
-    <p>Track Info</p>
-    <div id="trackStatusesDiv">
-        <h3>HTML track descriptions</h3>
+    <div class="divFlex0">
+        <video id="myVideo" preload="metadata" controls crossOrigin="anonymous" muted>
+            <source src="https://mainline.i3s.unice.fr/mooc/elephants-dream-medium.mp4" type="video/mp4">
+            <source src="https://mainline.i3s.unice.fr/mooc/elephants-dream-medium.webm" type="video/webm">
+            <track label="English subtitles" kind="subtitles" srclang="en"
+                   src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-en.vtt">
+            <track label="Deutsch subtitles" kind="subtitles" srclang="de"
+                   src="https://mainline.i3s.unice.fr/mooc/elephants-dream-subtitles-de.vtt" default>
+            <track label="English chapters" kind="chapters" srclang="en"
+                   src="https://mainline.i3s.unice.fr/mooc/elephants-dream-chapters-en.vtt">
+        </video>
+        <div id="divTranscript"></div>
+        <!-- <p>Track Info</p> -->
+        <div id="trackStatusesDiv">
+            <h3>HTML track descriptions</h3>
+        </div>
     </div>
+    <button id="buttonTrackStatuses" onclick=updateTrackStatuses()>Refresh track statuses</button>
+    <span id="currentLangSpan"></span>
+    <div id="langButtonDiv"></div>
     <p>Track Content Live</p>
     <div id="cuesLiveDiv">
     </div>

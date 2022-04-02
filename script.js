@@ -1,6 +1,12 @@
 var video, htmlTracks, htmlTracks;
 var trackStatusesDiv, cuesDiv, cuesLiveDiv, spanTranscript, langButtonDiv, currentLangSpan;
 
+//web audio API
+var gainExample, gainSlider, gainNode, balanceSlider, balanceNode, compressorButton, compressorNode;
+var ctx = window.AudioContext || window.webkitAudioContext;
+var audioContext = new ctx();
+var compressorOn = false;
+
 window.onload = function () {
     // called when the page has been loaded
     langButtonDiv = document.querySelector("#langButtonDiv");
@@ -20,7 +26,75 @@ window.onload = function () {
 
     // display their status in a div under the video
     updateTrackStatuses();
+
+    
+    
+
+
+    //web Audio API
+
+    //get audio context
+  
+
+    //the audio element
+     player = document.querySelector("#gainExample");
+    player.onplay = () => { audioContext.resume(); }
+
+    gainSlider = document.querySelector("#gainSlider");
+    balanceSlider = document.getElementById("balanceSlider");
+    compressorButton = document.getElementById("compressorButton");
+
+    buildAudioGraph();
+    events();
+
+   
 };
+function events() {
+    //event change balance on input
+    document.getElementById("balanceValue").value = document.getElementById("balanceSlider").value;
+    balanceSlider.oninput = function (evt) {
+        document.getElementById("balanceValue").value = evt.target.value;
+        balanceNode.pan.value = evt.target.value;
+    };
+   
+    gainSlider.oninput = function (evt) {
+        gainNode.gain.value = evt.target.value;
+    };
+
+    compressorButton.onclick = function (evt) {
+        if (compressorOn) {
+            compressorNode.disconnect(audioContext.destination);
+            gainNode.disconnect(compressorNode);
+            gainNode.connect(audioContext.destination);
+            compressorButton.innerHTML = "Turn compressor ON";
+            compressorButton.style.background = "red";
+        } else {
+            gainNode.disconnect(audioContext.destination);
+            gainNode.connect(compressorNode);
+            compressorNode.connect(audioContext.destination);
+            compressorButton.innerHTML = "Turn compressor OFF";
+            compressorButton.style.background = "lightgreen";
+        }
+        compressorOn = !compressorOn;
+    };
+
+}
+
+function buildAudioGraph() {
+    var source = audioContext.createMediaElementSource(player);
+
+    gainNode = audioContext.createGain();
+    balanceNode = audioContext.createStereoPanner();
+    compressorNode = audioContext.createDynamicsCompressor();
+
+    source.connect(balanceNode);
+    balanceNode.connect(gainNode);
+ 
+    gainNode.connect(audioContext.destination);
+}
+
+
+
 
 function updateTrackStatuses() {
     trackStatusesDiv.innerHTML = "";

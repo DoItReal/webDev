@@ -4,6 +4,10 @@
     padding: 20px;
     margin-top: 10px;
 }
+#webAudio{
+    border: 1px solid gray;
+    padding:5px;
+}
 #cuesDiv{
     overflow:scroll;
     border: 1px solid;
@@ -19,8 +23,7 @@
     margin-top: 10px;
 }
 #divTranscript {
-    padding: 5px;
-    border: 1px solid;
+    padding: 0px;
     float: left;
  
     overflow: auto;
@@ -28,14 +31,24 @@
     margin: 0;
     font-size: 14px;
     list-style: none;
-    background:lightgreen;
+    background:black;
+    color:gray;
+}
+#compressorButton{
+    background:red;
+    border-radius:10px;
+    padding:2px;
+    margin:5px;
+    margin-top:0px;
+    min-width:170px;
+
 }
 .divFlex0{
    display:flex;
    width:100%;
    height:auto;
    max-height:520px;
-   justify-content:fles-start;
+   justify-content:flex-start;
    flex-flow:row;
    margin:0px;
    padding:0px;
@@ -73,7 +86,7 @@ video {
 }
 
 .trans:hover{
-    color:gray;
+    text-decoration:underline;
 
 }
 #langButtonDiv > button {

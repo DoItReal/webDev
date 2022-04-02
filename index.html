@@ -27,6 +27,48 @@
     <button id="buttonTrackStatuses" onclick=updateTrackStatuses()>Refresh track statuses</button>
     <span id="currentLangSpan"></span>
     <div id="langButtonDiv"></div>
+
+    <div id="webAudio">
+    <audio src="https://mainline.i3s.unice.fr/mooc/drums.mp3"
+           id="gainExample"
+           controls loop
+           crossorigin="anonymous">
+    </audio>
+    <br>
+    <label for="gainSlider">Gain</label>
+    <input type="range" min="0" max="1" step="0.01" value="1" id="gainSlider" />
+    <div id="input_form">
+
+        <ul>
+            <li>
+
+                <label for="balance">Balance: </label>
+                <div class="divs">
+                    <input id="balanceSlider" step="0.05" required type="range" min="-1.00" max="1.00" "value="0" />
+                    <output id="balanceValue"></output>
+                </div>
+            </li>
+            <li>
+
+                <label for="missleNum">Missles Number</label>
+                <div class="divs">
+                    <input id="missleNum" list="myData" step="0.1" required type="range" min="2" max="20" value="5" met.value="missleNum.value" />
+                    <output id="missleNumValue">5</output>
+                    <meter value="5" min="2" max="20" low="3" high="10" optimum="1" id="met" for="missleNum"></meter>
+                </div>
+            </li>
+            <li>
+                <div class="divs">
+               <button id="compressorButton">Turn compressor ON</button>
+                    </div>
+            </li>
+
+        </ul>
+    </div>
+        </div>
+
+
+
     <p>Track Content Live</p>
     <div id="cuesLiveDiv">
     </div>
@@ -34,34 +76,7 @@
     <div id="cuesDiv">
         <h3>The showing track contain</h3>
     </div>
-    <div id="input_form">
 
-        <ul>
-            <li>
-
-                <label for="playerSpeed">Player Speed: </label>
-                <div class="divs">
-                    <input id="playerSpeeed" step="0.01" required type="range" min="2" max="10" value="5" oninput="ChangePlayerSpeed(event);" />
-                    <output id="playerSpeedValue">5</output>
-                </div>
-            </li>
-            <li>
-
-                <label for="missleNum">Missles Number</label>
-                <div class="divs">
-                    <input id="missleNum" list="myData" step="0.1" required type="range" min="2" max="20" value="5" oninput="ChangeMissleNum(event); met.value=missleNum.value" />
-                    <output id="missleNumValue">5</output>
-                    <meter value="5" min="2" max="20" low="3" high="10" optimum="1" id="met" for="missleNum"></meter>
-                </div>
-            </li>
-
-        </ul>
-    </div>
-    <datalist id="myData">
-        <option>3</option>
-        <option>7</option>
-        <option>13</option>
-    </datalist>
 
 
 </body>

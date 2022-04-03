@@ -70,9 +70,52 @@
 #trackStatusesDiv ul {
     border: 3px solid;
 }
-#li{
-    border: 1px solid red;
+
+#input_form {
+    
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+    flex-flow: row;
+    margin: 0px;
+    padding: 0px;
+    border: 2px solid cyan;
 }
+#input_form > *{
+    margin:5px;
+}
+#input_form > #mainFilters {
+    border: 1px dashed black;
+}
+#BiquadFilter{
+    border: 1px dashed green;
+    max-width:280px;
+    min-width:200px;
+}
+#BiquadFilter > ul > li{
+    float:right;
+}
+#divVisualaser{
+    display:flex;
+    width:auto;
+    height:auto;
+    justify-content:safe center;
+    flex-flow:row;
+    margin:0px;
+    padding:0px;
+    border: 4px dotted gray;
+}
+#divVisualaser > * {
+    border: 1px solid green;
+}
+ul {
+        list-style-type: none;
+    }
+#mainFilters{
+
+}
+
 video {
     display: block;
     float: left;

@@ -1,8 +1,11 @@
 var video, htmlTracks, htmlTracks;
 var trackStatusesDiv, cuesDiv, cuesLiveDiv, spanTranscript, langButtonDiv, currentLangSpan;
+var filters = [];
+var canvasVisBefore, canvasVisBeforeContext, canvasVisAfter, canvasVisAfterContext;
+var analyserBefer, dataArrayBefore, bufferLengthBefore, analyserAfter, dataArrayAfter, bufferLengthAfter;
 
 //web audio API
-var gainExample, gainSlider, gainNode, balanceSlider, balanceNode, compressorButton, compressorNode;
+var gainExample, gainSlider, gainNode, balanceSlider, balanceNode, compressorButton, compressorNode, biquadfilterNode;
 var ctx = window.AudioContext || window.webkitAudioContext;
 var audioContext = new ctx();
 var compressorOn = false;
@@ -23,6 +26,14 @@ window.onload = function () {
     //build Button for language change
     buildButtons();
 
+    //get canvas context
+
+    canvasVisBefore = document.getElementById("canvasVisualizerBefore");
+    canvasVisBeforeContext = canvasVisBefore.getContext('2d');
+
+    canvasVisAfter = document.getElementById("canvasVisualizerAfter");
+    canvasVisAfterContext = canvasVisAfter.getContext('2d');
+    canvasVisAfterContext.fillRect(100, 100, 200, 200);
 
     // display their status in a div under the video
     updateTrackStatuses();
@@ -46,37 +57,45 @@ window.onload = function () {
 
     buildAudioGraph();
     events();
-
+    animationFrames();
    
 };
+function animationFrames() {
+    var visBeforeAnimationId = requestAnimationFrame(visualize);
+  //  var visAfterAnimationId = requestAnimationFrame(visualize());
+}
 function events() {
+    //event change gain on input
+    document.getElementById("gainValue").value = gainSlider.value;
+    gainSlider.oninput = function (evt) {
+        document.getElementById("gainValue").value = evt.target.value;
+        gainNode.gain.value = evt.target.value;
+    }
+
     //event change balance on input
-    document.getElementById("balanceValue").value = document.getElementById("balanceSlider").value;
+    document.getElementById("balanceValue").value = balanceSlider.value;
     balanceSlider.oninput = function (evt) {
         document.getElementById("balanceValue").value = evt.target.value;
         balanceNode.pan.value = evt.target.value;
     };
-   
-    gainSlider.oninput = function (evt) {
-        gainNode.gain.value = evt.target.value;
-    };
-
+    //event change compressor button style
     compressorButton.onclick = function (evt) {
         if (compressorOn) {
-            compressorNode.disconnect(audioContext.destination);
+            compressorNode.disconnect(filters[0]);
             gainNode.disconnect(compressorNode);
-            gainNode.connect(audioContext.destination);
+            gainNode.connect(filters[0]);
             compressorButton.innerHTML = "Turn compressor ON";
             compressorButton.style.background = "red";
         } else {
-            gainNode.disconnect(audioContext.destination);
+            gainNode.disconnect(filters[0]);
             gainNode.connect(compressorNode);
-            compressorNode.connect(audioContext.destination);
+            compressorNode.connect(filters[0]);
             compressorButton.innerHTML = "Turn compressor OFF";
             compressorButton.style.background = "lightgreen";
         }
         compressorOn = !compressorOn;
     };
+
 
 }
 
@@ -90,9 +109,136 @@ function buildAudioGraph() {
     source.connect(balanceNode);
     balanceNode.connect(gainNode);
  
-    gainNode.connect(audioContext.destination);
-}
+    
 
+    [60, 170, 350, 1000, 3500, 10000].forEach(function (freq, i){
+        var EQnode = audioContext.createBiquadFilter();
+        EQnode.frequency.value = freq;
+        EQnode.type = "peaking";
+        EQnode.gain.value = 0;
+        filters.push(EQnode);
+    });
+         //to connect the biquadFilter
+        gainNode.connect(filters[0]);
+       
+        for (var i = 0; i < filters.length - 1; i++) {
+            filters[i].connect(filters[i + 1]);
+        }
+        
+
+    // Create an analyser node Before Canvas
+    analyserBefore = audioContext.createAnalyser();
+    // set visualizer options, for lower precision change 1024 to 512,
+    // 256, 128, 64 etc. bufferLength will be equal to fftSize/2
+    analyserBefore.fftSize = 1024;
+    bufferLengthBefore = analyserBefore.frequencyBinCount;
+    dataArrayBefore = new Uint8Array(bufferLengthBefore);
+    source.connect(analyserBefore);
+
+
+    // Create an analyser node After Canvas
+    analyserAfter = audioContext.createAnalyser();
+    filters[filters.length - 1].connect(analyserAfter);
+    // set visualizer options, for lower precision change 1024 to 512,
+    // 256, 128, 64 etc. bufferLength will be equal to fftSize/2
+    analyserAfter.fftSize = 1024;
+    bufferLengthAfter = analyserAfter.frequencyBinCount;
+    dataArrayAfter = new Uint8Array(bufferLengthAfter);
+    analyserAfter.connect(audioContext.destination);
+
+}
+function visualize() {
+
+    //blur 
+    {
+        var widthBefore = canvasVisBefore.width;
+        var heightBefore = canvasVisBefore.height;
+        canvasVisBeforeContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        canvasVisBeforeContext.clearRect(0, 0, widthBefore, heightBefore);
+        canvasVisBeforeContext.fillRect(0, 0, widthBefore, heightBefore);
+
+        var widthAfter = canvasVisAfter.width;
+        var heightAfter = canvasVisAfter.height;
+        canvasVisAfterContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        canvasVisAfterContext.clearRect(0, 0, widthAfter, heightAfter);
+        canvasVisAfterContext.fillRect(0, 0, widthAfter, heightAfter);
+    }
+    // 2 - Get the analyser data - for waveforms we need time domain data
+    analyserBefore.getByteTimeDomainData(dataArrayBefore);
+
+    analyserAfter.getByteTimeDomainData(dataArrayAfter);
+    // 3 - draws the waveform
+    canvasVisBeforeContext.lineWidth = 2;
+    canvasVisBeforeContext.strokeStyle = 'lightBlue';
+
+    canvasVisAfterContext.lineWidth = 2;
+    canvasVisAfterContext.strokeStyle = 'lightBlue';
+
+    // the waveform is in one single path, first let's
+    // clear any previous path that could be in the buffer
+    canvasVisBeforeContext.beginPath();
+    var sliceWidth = widthBefore / bufferLengthBefore;
+    var x = 0;
+
+   
+
+//before
+    {
+        for (let i = 0; i < bufferLengthBefore; i++) {
+            // dataArray values are between 0 and 255,
+            // normalize v, now between 0 and 1
+            let v = dataArrayBefore[i] / 255;
+            // y will be in [0, canvas height], in pixels
+            let y = v * heightBefore;
+
+            if (i === 0) {
+                canvasVisBeforeContext.moveTo(x, y);
+            } else {
+                canvasVisBeforeContext.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+        }
+
+        canvasVisBeforeContext.lineTo(widthBefore, heightBefore / 2);
+        // draw the path at once
+        canvasVisBeforeContext.stroke();
+        canvasVisBeforeContext.font = '30px serif';
+        canvasVisBeforeContext.strokeText("Before Filters",10,25);
+    }
+    //after
+    canvasVisAfterContext.beginPath();
+    var sliceWidthAfter = widthAfter / bufferLengthAfter;
+    x = 0;
+    {
+        for (let i = 0; i < bufferLengthAfter; i++) {
+            // dataArray values are between 0 and 255,
+            // normalize v, now between 0 and 1
+            let v = dataArrayAfter[i] / 255;
+            // y will be in [0, canvas height], in pixels
+            let y = v * heightAfter;
+            if (i === 0) {
+                canvasVisAfterContext.moveTo(x, y);
+            } else {
+                canvasVisAfterContext.lineTo(x, y);
+            }
+
+            x += sliceWidthAfter;
+        }
+
+        canvasVisAfterContext.lineTo(widthAfter, heightAfter / 2);
+        // draw the path at once
+        canvasVisAfterContext.stroke();
+        canvasVisAfterContext.font = '30px serif';
+        canvasVisAfterContext.strokeText("After Filters", 10, 25);
+}
+    // once again call the visualize function at 60 frames/s
+    requestAnimationFrame(visualize);
+
+}
+function BiquadFilter(val, hz) {
+    filters[hz].gain.value = val;
+}
 
 
 

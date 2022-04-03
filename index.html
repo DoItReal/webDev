@@ -29,44 +29,72 @@
     <div id="langButtonDiv"></div>
 
     <div id="webAudio">
-    <audio src="https://mainline.i3s.unice.fr/mooc/drums.mp3"
+    <audio src="https://mainline.i3s.unice.fr/mooc/guitarRiff1.mp3"
            id="gainExample"
            controls loop
            crossorigin="anonymous">
     </audio>
+        </div>
     <br>
-    <label for="gainSlider">Gain</label>
-    <input type="range" min="0" max="1" step="0.01" value="1" id="gainSlider" />
+    
     <div id="input_form">
+        <div id="mainFilters">
+            <ul>
 
-        <ul>
-            <li>
+                <li>
+                    <label for="gainSlider">Gain: </label>
 
-                <label for="balance">Balance: </label>
-                <div class="divs">
-                    <input id="balanceSlider" step="0.05" required type="range" min="-1.00" max="1.00" "value="0" />
-                    <output id="balanceValue"></output>
-                </div>
-            </li>
-            <li>
+                    <input type="range" min="0" max="1" step="0.01" value="1" id="gainSlider" />
+                    <output id="gainValue"></output>
+        </li>
+        <li>
 
-                <label for="missleNum">Missles Number</label>
-                <div class="divs">
-                    <input id="missleNum" list="myData" step="0.1" required type="range" min="2" max="20" value="5" met.value="missleNum.value" />
-                    <output id="missleNumValue">5</output>
-                    <meter value="5" min="2" max="20" low="3" high="10" optimum="1" id="met" for="missleNum"></meter>
-                </div>
-            </li>
-            <li>
-                <div class="divs">
-               <button id="compressorButton">Turn compressor ON</button>
-                    </div>
-            </li>
+            <label for="balance">Balance: </label>
+                <input id="balanceSlider" step="0.05" required type="range" min="-1.00" max="1.00" "value=" 0" />
+                <output id="balanceValue"></output>
+        </li>
+        <li>
+                <button id="compressorButton">Turn compressor ON</button>
+        </li>
 
         </ul>
     </div>
-        </div>
+       
+        <div id="BiquadFilter">
+            <label for="BiquadFilter">Biquad Filter</label>
+            <ul>
+                <li>
+                    <label>60Hz</label>
+                    <input type="range" min="-30" max="30" step="1" oninput="BiquadFilter(this.value, 0);" />
+                </li>
+                <li>
+                    <label>170Hz</label>
+                    <input type="range" min="-30" max="30" step="1" oninput="BiquadFilter(this.value, 1);" />
+                </li>
+                <li>
+                    <label>350Hz</label>
+                    <input type="range" min="-30" max="30" step="1" oninput="BiquadFilter(this.value, 2);" />
+                </li>
+                <li>
+                    <label>1000Hz</label>
+                    <input type="range" min="-30" max="30" step="1" oninput="BiquadFilter(this.value, 3);" />
+                </li>
+                <li>
+                    <label>3500Hz</label>
+                    <input type="range" min="-30" max="30" step="1" oninput="BiquadFilter(this.value, 4);" />
+                </li>
+                <li>
+                    <label>10000Hz</label>
+                    <input type="range" min="-30" max="30" step="1" oninput="BiquadFilter(this.value, 5);" />
+                </li>
+            </ul>
 
+        </div>
+        </div>
+    <div id="divVisualaser">
+        <canvas id="canvasVisualizerBefore" width="700" height="250"></canvas>
+        <canvas id="canvasVisualizerAfter" width="700" height="250"></canvas>
+    </div>
 
 
     <p>Track Content Live</p>
